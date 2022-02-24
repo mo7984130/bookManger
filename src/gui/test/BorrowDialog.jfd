@@ -1,0 +1,51 @@
+JFDML JFormDesigner: "7.0.5.3.411" Java: "11.0.11" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.GridLayout ) {
+			"columns": 2
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 1
+				"rows": 3
+			} ) {
+				name: "panel2"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "lName"
+					"text": "姓名"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "lremark"
+					"text": "备注"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bCancel"
+					"text": "取消"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cancel", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 1
+				"rows": 3
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "tfName"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "tfremark"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bBorrow"
+					"text": "借阅"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "borrow", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 130 )
+		} )
+	}
+}

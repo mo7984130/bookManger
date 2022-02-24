@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="bookManger">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/bookManger_jar/bookManger.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

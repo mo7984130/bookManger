@@ -1,0 +1,127 @@
+JFDML JFormDesigner: "7.0.5.3.411" Java: "11.0.11" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "mainPanel"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 5
+			} ) {
+				name: "funtionPanel"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bSelected"
+					"text": "刷新"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bAdd"
+					"text": "添加"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "add", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bDelete"
+					"text": "删除"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bLog"
+					"text": "日志"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "North"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 1
+				"rows": 10
+			} ) {
+				name: "bookPanel"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+					"columns": 5
+				} ) {
+					name: "inforPanel"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lIsSelected"
+						"text": "是否被选中"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label4"
+						"text": "书名"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label3"
+						"text": "所有人"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label1"
+						"text": "借书"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label2"
+						"text": "还书"
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+					"columns": 5
+				} ) {
+					name: "oneBookPanel"
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "isSelected"
+						"horizontalAlignment": 0
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lBookName"
+						"text": "bookName"
+						"horizontalAlignment": 0
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "lOwner"
+						"text": "owner"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "bBorroBook"
+						"text": "借书"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "borroBook", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "bReturnBook"
+						"text": "还书"
+					} )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 5
+			} ) {
+				name: "pagePanel"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bFirstPage"
+					"text": "首页"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bPreviousPage"
+					"text": "上一页"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "tfPage"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bSearch"
+					"text": "搜索"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bNextPage"
+					"text": "下一页"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "bLastPage"
+					"text": "尾页"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "South"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 310 )
+		} )
+	}
+}
