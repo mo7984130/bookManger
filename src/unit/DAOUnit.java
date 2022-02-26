@@ -18,8 +18,7 @@ import static unit.SqlUnit.getConnection;
 public class DAOUnit<T> {
 
     Class<?> cl;
-    Field[] f;
-    ArrayList<Object> fields = new ArrayList<>();
+    Field[] fields;
     String database;
 
 
@@ -29,16 +28,19 @@ public class DAOUnit<T> {
      */
     public DAOUnit(T t) {
         cl = t.getClass();
-        f = cl.getDeclaredFields();
-        for (Field fi : f){
+        fields = cl.getDeclaredFields();
+        for (Field field : fields){
             try {
-                fi.setAccessible(true);
-                fields.add(fi.get(t));
-            } catch (IllegalAccessException e) {
+                field.setAccessible(true);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        database = (String) fields.get(0);
+        try {
+            database = (String) fields[0].get(t);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -49,12 +51,12 @@ public class DAOUnit<T> {
         StringBuilder sb = new StringBuilder();
         sb.append("insert into ").append(database).append(" values(null,");
         try {
-            for (int i = 2 ; i<fields.size() ; i++){
-                f[i].setAccessible(true);
-                if(i != fields.size()-1){
-                    sb.append("'").append(f[i].get(t)).append("',");
+            for (int i = 2 ; i<fields.length ; i++){
+                fields[i].setAccessible(true);
+                if(i != fields.length-1){
+                    sb.append("'").append(fields[i].get(t)).append("',");
                 }else{
-                    sb.append("'").append(f[i].get(t)).append("')");
+                    sb.append("'").append(fields[i].get(t)).append("')");
                 }
             }
         } catch (IllegalAccessException e) {
@@ -127,9 +129,9 @@ public class DAOUnit<T> {
 
             while(rs.next()) {
                 T t = (T) cl.newInstance();
-                for (int i = 1 ;i< f.length ; i++){
+                for (int i = 1 ;i< fields.length ; i++){
                     Object o = rs.getObject(i);
-                    f[i].set(t,o);
+                    fields[i].set(t,o);
                 }
                 list.add(t);
             }
@@ -145,17 +147,17 @@ public class DAOUnit<T> {
         return get(new String[]{field},new String[]{value});
     }
 
-    public ArrayList<T> get(String[] fields , String[] values){
+    public ArrayList<T> get(String[] field , String[] values){
 
         ArrayList<T> list = new ArrayList<T>();
 
         StringBuilder sql = new StringBuilder("select * from ");
         sql.append(database + " where ");
-        for (int i = 0 ; i < fields.length ; i++) {
-            if (i != fields.length - 1) {
-                sql.append(fields[i]).append(" = '").append(values[i]).append("' and ");
+        for (int i = 0 ; i < field.length ; i++) {
+            if (i != field.length - 1) {
+                sql.append(field[i]).append(" = '").append(values[i]).append("' and ");
             }else {
-                sql.append(fields[i]).append(" = '").append(values[i]).append("'");
+                sql.append(field[i]).append(" = '").append(values[i]).append("'");
             }
         }
         try(
@@ -166,8 +168,8 @@ public class DAOUnit<T> {
 
             while(rs.next()) {
                 T t = (T) cl.newInstance();
-                for (int i = 1 ;i< f.length ; i++){
-                    f[i].set(t,rs.getObject(i));
+                for (int i = 1 ;i< fields.length ; i++){
+                    fields[i].set(t,rs.getObject(i));
                 }
                 list.add(t);
             }
@@ -184,17 +186,17 @@ public class DAOUnit<T> {
         return get(new String[]{field},new String[]{value});
     }
 
-    public ArrayList<T> fuzzySearch(String[] fields , String[] values){
+    public ArrayList<T> fuzzySearch(String[] field , String[] values){
 
         ArrayList<T> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("select * from ");
         sql.append(database + " where like ");
-        for (int i = 0 ; i < fields.length ; i++) {
-            if (i != fields.length - 1) {
-                sql.append(fields[i]).append(" = '").append("%" + values[i] + "%").append("' and ");
+        for (int i = 0 ; i < field.length ; i++) {
+            if (i != field.length - 1) {
+                sql.append(field[i]).append(" = '").append("%" + values[i] + "%").append("' and ");
             }else {
-                sql.append(fields[i]).append(" = '").append("%" + values[i] + "%").append("'");
+                sql.append(field[i]).append(" = '").append("%" + values[i] + "%").append("'");
             }
         }
 
@@ -206,8 +208,8 @@ public class DAOUnit<T> {
 
             while(rs.next()) {
                 T t = (T) cl.newInstance();
-                for (int i1 = 1 ;i1< f.length ; i1++){
-                    f[i1].set(t,rs.getObject(i1));
+                for (int i1 = 1 ;i1< fields.length ; i1++){
+                    fields[i1].set(t,rs.getObject(i1));
                 }
                 list.add(t);
             }
@@ -220,14 +222,14 @@ public class DAOUnit<T> {
 
     }
 
-    public ArrayList<T> fuzzySearchByOne(String value , String[] fields){
+    public ArrayList<T> fuzzySearchByOne(String value , String[] field){
 
         ArrayList<T> list = new ArrayList<>();
 
-        for (int i = 0 ; i < fields.length ; i++) {
+        for (int i = 0 ; i < field.length ; i++) {
             StringBuilder sql = new StringBuilder("select * from ");
             sql.append(database + " where ");
-            sql.append(fields[i]).append(" LIKE '").append("%" + value + "%").append("'");
+            sql.append(field[i]).append(" LIKE '").append("%" + value + "%").append("'");
 
             try(
                     Connection c = getConnection();PreparedStatement ps = c.prepareStatement(sql.toString())
@@ -237,8 +239,8 @@ public class DAOUnit<T> {
 
                 while(rs.next()) {
                     T t = (T) cl.newInstance();
-                    for (int i1 = 1 ;i1< f.length ; i1++){
-                        f[i1].set(t,rs.getObject(i1));
+                    for (int i1 = 1 ;i1< fields.length ; i1++){
+                        fields[i1].set(t,rs.getObject(i1));
                     }
                     list.add(t);
                 }
@@ -258,15 +260,15 @@ public class DAOUnit<T> {
         return exists(new String[]{field},new String[]{value});
     }
 
-    public boolean exists(String[] fields , String[] values) {
+    public boolean exists(String[] field , String[] values) {
 
         StringBuilder sql = new StringBuilder("select * from ");
         sql.append(database).append(" where ");
-        for (int i = 0 ; i < fields.length ; i++) {
-            if (i != fields.length - 1) {
-                sql.append(fields[i]).append(" = '").append(values[i]).append("' and ");
+        for (int i = 0 ; i < field.length ; i++) {
+            if (i != field.length - 1) {
+                sql.append(field[i]).append(" = '").append(values[i]).append("' and ");
             }else {
-                sql.append(fields[i]).append(" = '").append(values[i]).append("'");
+                sql.append(field[i]).append(" = '").append(values[i]).append("'");
             }
         }
         try(
@@ -294,12 +296,12 @@ public class DAOUnit<T> {
         StringBuilder sql = new StringBuilder();
         sql.append("update ").append(database).append(" set ");
         try {
-            for (int i = 2 ; i<fields.size() ; i++){
-                f[i].setAccessible(true);
-                if(i != fields.size()-1){
-                    sql.append(f[i].getName()).append(" = '").append(f[i].get(t)).append("' , ");
+            for (int i = 2 ; i<fields.length ; i++){
+                fields[i].setAccessible(true);
+                if(i != fields.length-1){
+                    sql.append(fields[i].getName()).append(" = '").append(fields[i].get(t)).append("' , ");
                 }else{
-                    sql.append(f[i].getName()).append(" = '").append(f[i].get(t)).append("'");
+                    sql.append(fields[i].getName()).append(" = '").append(fields[i].get(t)).append("'");
                 }
             }
         } catch (IllegalAccessException e) {
@@ -307,7 +309,7 @@ public class DAOUnit<T> {
         }
 
         try {
-            sql.append(" where id = '").append(f[1].get(t)).append("'");
+            sql.append(" where id = '").append(fields[1].get(t)).append("'");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -358,6 +360,52 @@ public class DAOUnit<T> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void delete(String field , String value) {
+        delete(new String[]{field},new String[]{value});
+    }
+
+    public void delete(String[] field , String[] values) {
+
+        StringBuilder sql = new StringBuilder("delete from ");
+        sql.append(database + " where ");
+
+        for (int i = 0 ; i < field.length ; i++) {
+            if (i != field.length - 1) {
+                sql.append(field[i]).append(" = '").append(values[i]).append("' AND ");
+            }else {
+                sql.append(field[i]).append(" = '").append(values[i]).append("'");
+            }
+        }
+
+        try(
+                Connection c = getConnection();PreparedStatement ps = c.prepareStatement(sql.toString())
+        ) {
+
+        ps.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void delete(T t){
+
+        ArrayList<String> f = new ArrayList<>();
+        ArrayList<String> v = new ArrayList<>();
+        for (Field field : fields){
+            try {
+                f.add(field.getName());
+                v.add(String.valueOf(field.get(t)));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        delete(f.toArray(new String[0]) , v.toArray(new String[0]));
 
     }
 
