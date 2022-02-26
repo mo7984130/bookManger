@@ -47,7 +47,7 @@ public class FunctionPanel extends JPanel {
     private JButton bLog = new JButton();
 
     private void addBook(ActionEvent e){
-        new AddDialog(getMainFrame()).showDialog();
+        new AddDialog(getMainFrame()).setVisible(true);
     }
 
     private void refresh(ActionEvent e){
@@ -55,6 +55,6 @@ public class FunctionPanel extends JPanel {
     }
 
     private void log(ActionEvent e){
-        new LogDialog(Log.getAllLogFile()).reset(1);
+        new LogDialog(Log.getAllLogFile()).setVisible(true);
     }
 }

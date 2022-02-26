@@ -12,11 +12,13 @@ create table book
     borrower    varchar(255) null,
     lendTime    varchar(255) null,
     returnTime  varchar(255) null,
+    remark      varchar(255) null,
     isAvailable int          null,
     constraint book_id_uindex
         unique (id)
 );
 
-alter table book
-    add primary key (id);
+
+
+
 

@@ -58,7 +58,8 @@ public class Students {
             "吴子聪",
             "秦锦",
             "郑再道",
-            "陈子熙"
+            "陈子熙",
+            "TEST"
     };
 
     public static boolean existsStudents(String studentName){

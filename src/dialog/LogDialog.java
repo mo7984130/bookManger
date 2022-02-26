@@ -1,6 +1,6 @@
 package dialog;
 
-import entity.Book;
+import gui.frame.MainFrame;
 import gui.panel.LogPagePanel;
 import log.Log;
 
@@ -30,9 +30,11 @@ public class LogDialog extends JDialog {
 
     private JTextArea showPanel;
     
-    private int onePageOfNumber = 10;
+    private final int onePageOfNumber = 10;
 
     public LogDialog(File logFile){
+        super(MainFrame.getMainFrame() , true);
+
         setTitle("日志");
         setSize(1000, 500);
         setLocationRelativeTo(null);
@@ -60,11 +62,11 @@ public class LogDialog extends JDialog {
         showPanel = new JTextArea();
         showPanel.setLineWrap(true);
         showPanel.setEditable(false);
-        showPanel.setFont(new Font("Arial", Font.BOLD, 30));
+        showPanel.setFont(new Font("宋体", Font.BOLD, 30));
 
         add(showPanel , BorderLayout.CENTER);
 
-        setVisible(true);
+        reset(page);
     }
 
     public void reset(int page){
@@ -102,10 +104,6 @@ public class LogDialog extends JDialog {
         for (String log : shows){
             showPanel.append(log + "\r\n");
         }
-
-        showPanel.validate();
-
-        showPanel.repaint();
 
     }
 

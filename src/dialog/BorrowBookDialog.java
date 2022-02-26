@@ -36,9 +36,6 @@ public class BorrowBookDialog extends JDialog {
     public BorrowBookDialog(JFrame f , Book book){
         super(f , true);
         this.book = book;
-    }
-
-    public void showDialog(){
 
         setTitle("借阅");
         setSize(200, 100);
@@ -79,8 +76,6 @@ public class BorrowBookDialog extends JDialog {
         panel1.add(bBorrow);
 
         add(panel1);
-
-        setVisible(true);
     }
 
     private void cancel(ActionEvent e){

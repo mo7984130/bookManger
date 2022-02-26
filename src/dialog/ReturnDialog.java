@@ -60,21 +60,16 @@ public class ReturnDialog extends JDialog {
         add(panel1);
     }
 
-    public void showDialog(){
-        setVisible(true);
-    }
-
     private void returnBook(ActionEvent e){
         book.setReturnTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         book.setAvailable(0);
         book.setRemark(tfremark.getText());
 
+        new Log(book).println("return");
+
         book.setBorrower(null);
 
         new DAOUnit<>(book).update(book);
-
-        new Log(book).println("return");
-
         JOptionPane.showMessageDialog(this , "归还成功！");
         BookPanel.getBookPanel().refresh();
 

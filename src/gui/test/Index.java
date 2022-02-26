@@ -21,7 +21,7 @@ public class Index {
     }
 
     private void add(ActionEvent e) {
-        new AddDialog(getMainFrame()).showDialog();
+        new AddDialog(getMainFrame()).setVisible(true);
     }
 
     private void borroBook(ActionEvent e) {

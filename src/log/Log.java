@@ -3,10 +3,14 @@ package log;
 import entity.Book;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * @author mo7984130
+ */
 public class Log {
 
     Book book;
@@ -36,8 +40,7 @@ public class Log {
         ArrayList<String> log = new ArrayList<>();
 
         try (
-                FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr)
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file) , StandardCharsets.UTF_8))
         ){
 
             while(true){

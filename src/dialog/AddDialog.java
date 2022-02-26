@@ -23,9 +23,6 @@ public class AddDialog extends JDialog {
 
     public AddDialog(JFrame f){
         super(f);
-    }
-
-    public void showDialog(){
 
         setTitle("添加书籍");
         setSize(400, 300);
@@ -67,7 +64,7 @@ public class AddDialog extends JDialog {
 
         add(panel2);
 
-        panel1.setLayout(new GridLayout(4, 1));
+        panel1.setLayout(new GridLayout(5, 1));
         panel1.add(tfBookName);
         panel1.add(tfOwner);
         panel1.add(tfType);
@@ -78,8 +75,6 @@ public class AddDialog extends JDialog {
         panel1.add(bSave);
 
         add(panel1);
-
-        setVisible(true);
     }
 
     private JPanel panel2;

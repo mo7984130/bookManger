@@ -1,10 +1,9 @@
 package gui.panel;
 
 import dialog.BorrowBookDialog;
-import dialog.LogDialog;
+import dialog.ManagementDialog;
 import dialog.ReturnDialog;
 import entity.Book;
-import log.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,10 +49,10 @@ public class OneBookPanel extends JPanel {
         bReturnBook.addActionListener(this::returnBook);
         add(bReturnBook);
 
-        bLog.setText("日志");
-        bLog.setHorizontalAlignment(SwingConstants.CENTER);
-        bLog.addActionListener(this::showLog);
-        add(bLog);
+        bManagement.setText("管理");
+        bManagement.setHorizontalAlignment(SwingConstants.CENTER);
+        bManagement.addActionListener(this::showManagement);
+        add(bManagement);
 
         if (book.isAvailable()){
             bReturnBook.setEnabled(false);
@@ -66,17 +65,17 @@ public class OneBookPanel extends JPanel {
     public JLabel lOwner = new JLabel();
     public JButton bBorrowBook = new JButton();
     public JButton bReturnBook = new JButton();
-    public JButton bLog = new JButton();
+    public JButton bManagement = new JButton();
 
     private void borrowBook(ActionEvent e){
-        new BorrowBookDialog(getMainFrame() , book).showDialog();
+        new BorrowBookDialog(getMainFrame() , book).setVisible(true);
     }
 
     private void returnBook(ActionEvent e){
-        new ReturnDialog(book).showDialog();
+        new ReturnDialog(book).setVisible(true);
     }
 
-    private void showLog(ActionEvent e){
-        new LogDialog(new Log(book).logFile).reset(1);
+    private void showManagement(ActionEvent e){
+        new ManagementDialog(getMainFrame() , book).setVisible(true);
     }
 }

@@ -30,19 +30,21 @@ public class BookPanel extends JPanel {
 
     public int lastPage;
 
+    public static int numberOfOnePage = 10;
+
     public BookPanel(){
         setLayout(new GridLayout(10, 1));
 
-        lastPage = new DAOUnit<>(new Book()).getTotal(9);
+        lastPage = new DAOUnit<>(new Book()).getTotal(numberOfOnePage);
     }
 
     public void reset(int page){
         this.page = page;
 
-        lastPage = new DAOUnit<>(new Book()).getTotal(9);
+        lastPage = new DAOUnit<>(new Book()).getTotal(numberOfOnePage);
         PagePanel.getPagePanel().checkPage();
 
-        reset(new DAOUnit<>(new Book()).list( (page-1)*9 , 9));
+        reset(new DAOUnit<>(new Book()).list( (page-1)*numberOfOnePage , numberOfOnePage));
 
         init();
     }
@@ -63,7 +65,7 @@ public class BookPanel extends JPanel {
 
         oneBookPanels.clear();
         
-        add(getInforPanel());
+        //add(getInforPanel());
 
         for (Book book : books){
             OneBookPanel oneBookPanel = new OneBookPanel(book);
